@@ -12,6 +12,15 @@ import {
   ExplosionAnimation,
 } from "./collisionAnimation.js";
 
+let myFont = new FontFace(
+  "Creepster",
+  "url(https://fonts.gstatic.com/s/creepster/v13/AlZy_zVUqJz4yMrniH4Rcn35.woff2)"
+);
+
+myFont.load().then((font) => {
+  document.fonts.add(font);
+});
+
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
