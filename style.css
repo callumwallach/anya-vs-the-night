@@ -55,6 +55,7 @@ body {
 }
 
 #loading {
+  color: white !important;
   position: absolute;
   font-size: 1.5rem;
   font-family: Arial, "Creepster", cursive;
