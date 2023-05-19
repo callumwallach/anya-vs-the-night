@@ -63,7 +63,7 @@ class Player {
     this.jumpMax = 27;
     // sitting default
     this.maxFrame = 4;
-    this.fps = 20;
+    this.fps = this.game.fps;
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
     this.speed = 0;

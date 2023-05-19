@@ -23,6 +23,8 @@ myFont.load().then((font) => {
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas1");
+  canvas.style.display = "block";
+  document.getElementById("loading").style.display = "none";
   const ctx = canvas.getContext("2d");
   canvas.width = 1200;
   canvas.height = 500;
@@ -31,6 +33,7 @@ window.addEventListener("load", () => {
   let lastTime = 0;
   let animationRequest;
   const maxTime = 3 * 60 * 1000;
+  let fps = 20;
   let enemyInterval = 2 * 1000;
   let bossInterval = 1 * 60 * 1000;
   let bossMaxHealth = 250;
@@ -40,9 +43,8 @@ window.addEventListener("load", () => {
   let powerBar = true;
   let debug = false;
   const fullScreenButton = document.getElementById("fullScreenButton");
-  if (!document.fullscreenEnabled) {
-    fullScreenButton.style.display = "none";
-  } else {
+  if (document.fullscreenEnabled) {
+    fullScreenButton.style.display = "block";
     fullScreenButton.addEventListener("click", toggleFullScreen);
   }
 
@@ -174,6 +176,7 @@ window.addEventListener("load", () => {
       this.bossInterval = bossInterval;
       this.bossMaxHealth = bossMaxHealth;
       this.character = character;
+      this.fps = fps;
       // local resets
       this.speed = 0;
       this.maxSpeed = 4;
@@ -243,6 +246,8 @@ window.addEventListener("load", () => {
   function processURLParams(urlParams) {
     const a = urlParams.get("player");
     if (a) character = a;
+    const f = parseInt(urlParams.get("fps"));
+    if (f) fps = f;
     const bi = parseInt(urlParams.get("bi"));
     if (bi) bossInterval = bi;
     const bh = parseInt(urlParams.get("bh"));
@@ -261,61 +266,61 @@ window.addEventListener("load", () => {
     if (debug) console.log(urlParams);
   }
 
-  /**
-   * Allows to obtain the estimated Hz of the primary monitor in the system.
-   *
-   * @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
-   * @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
-   */
-  function getScreenRefreshRate(callback, runIndefinitely = false) {
-    let requestId = null;
-    let callbackTriggered = false;
-    runIndefinitely = runIndefinitely || false;
+  // /**
+  //  * Allows to obtain the estimated Hz of the primary monitor in the system.
+  //  *
+  //  * @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
+  //  * @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
+  //  */
+  // function getScreenRefreshRate(callback, runIndefinitely = false) {
+  //   let requestId = null;
+  //   let callbackTriggered = false;
+  //   runIndefinitely = runIndefinitely || false;
 
-    if (!window.requestAnimationFrame) {
-      window.requestAnimationFrame =
-        window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
-    }
+  //   if (!window.requestAnimationFrame) {
+  //     window.requestAnimationFrame =
+  //       window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+  //   }
 
-    let DOMHighResTimeStampCollection = [];
+  //   let DOMHighResTimeStampCollection = [];
 
-    let triggerAnimation = function (DOMHighResTimeStamp) {
-      DOMHighResTimeStampCollection.unshift(DOMHighResTimeStamp);
+  //   let triggerAnimation = function (DOMHighResTimeStamp) {
+  //     DOMHighResTimeStampCollection.unshift(DOMHighResTimeStamp);
 
-      if (DOMHighResTimeStampCollection.length > 10) {
-        let t0 = DOMHighResTimeStampCollection.pop();
-        let fps = Math.floor((1000 * 10) / (DOMHighResTimeStamp - t0));
+  //     if (DOMHighResTimeStampCollection.length > 10) {
+  //       let t0 = DOMHighResTimeStampCollection.pop();
+  //       let fps = Math.floor((1000 * 10) / (DOMHighResTimeStamp - t0));
 
-        if (!callbackTriggered) {
-          callback.call(undefined, fps, DOMHighResTimeStampCollection);
-        }
+  //       if (!callbackTriggered) {
+  //         callback.call(undefined, fps, DOMHighResTimeStampCollection);
+  //       }
 
-        if (runIndefinitely) {
-          callbackTriggered = false;
-        } else {
-          callbackTriggered = true;
-        }
-      }
+  //       if (runIndefinitely) {
+  //         callbackTriggered = false;
+  //       } else {
+  //         callbackTriggered = true;
+  //       }
+  //     }
 
-      requestId = window.requestAnimationFrame(triggerAnimation);
-    };
+  //     requestId = window.requestAnimationFrame(triggerAnimation);
+  //   };
 
-    window.requestAnimationFrame(triggerAnimation);
+  //   window.requestAnimationFrame(triggerAnimation);
 
-    // Stop after half second if it shouldn't run indefinitely
-    if (!runIndefinitely) {
-      window.setTimeout(function () {
-        window.cancelAnimationFrame(requestId);
-        requestId = null;
-      }, 500);
-    }
-  }
+  //   // Stop after half second if it shouldn't run indefinitely
+  //   if (!runIndefinitely) {
+  //     window.setTimeout(function () {
+  //       window.cancelAnimationFrame(requestId);
+  //       requestId = null;
+  //     }, 500);
+  //   }
+  // }
 
   function run() {
     processURLParams(new URLSearchParams(window.location.search));
-    getScreenRefreshRate(function (FPS) {
-      console.log(`${FPS} FPS`);
-    });
+    // getScreenRefreshRate(function (FPS) {
+    //   alert(`${FPS} FPS`);
+    // });
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.background.draw(ctx);
     game.loading.draw(ctx);
