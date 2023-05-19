@@ -62,6 +62,8 @@ class UI {
     }
     // boss
     if (this.game.bossStage && this.game.boss.getHealth() > 0) {
+      const gw = this.game.width;
+      const gh = this.game.height;
       context.save();
       const barWidth = 250;
       const barHeight = 13;
@@ -71,22 +73,22 @@ class UI {
       context.shadowBlur = 0;
       context.lineWidth = 2;
       context.strokeRect(
-        this.game.width * 0.5 - barWidth * 0.5,
-        this.game.height * 0.15,
+        gw * 0.5 - barWidth * 0.5,
+        gh * 0.15,
         barWidth,
         barHeight
       );
       context.fillStyle = "rgba(0, 0, 0, 0.5)";
       context.fillRect(
-        this.game.width * 0.5 - barWidth * 0.5 + 1,
-        this.game.height * 0.15 + 1,
+        gw * 0.5 - barWidth * 0.5 + 1,
+        gh * 0.15 + 1,
         barWidth - 2,
         barHeight - 2
       );
       context.fillStyle = "white";
       context.fillRect(
-        this.game.width * 0.5 - barWidth * 0.5 + 1,
-        this.game.height * 0.15 + 1,
+        gw * 0.5 - barWidth * 0.5 + 1,
+        gh * 0.15 + 1,
         (this.game.boss.getHealth() / this.game.boss.maxHealth) * barWidth - 2,
         barHeight - 2
       );
@@ -95,40 +97,32 @@ class UI {
     // game over
     if (this.game.gameOver) {
       context.textAlign = "center";
-      context.font = `${this.fontSize * 2}px ${this.fontFamily}`;
-      //const heading = playerWon ? `Well done!` : `Love at first bite?`;
-      const heading = this.game.success
-        ? `Happy Birthday Anya!!!`
-        : `Game Over!`;
-      context.fillText(
-        heading,
-        this.game.width * 0.5,
-        this.game.height * 0.5 - 20
-      );
-
+      const gw = this.game.width;
+      const gh = this.game.height;
+      context.fillStyle = "rgba(255,255,255,.1)";
+      context.fillRect(0, 0, gw, gh);
+      context.fillStyle = this.game.fontColor;
       if (this.game.success) {
-        context.font = `${this.fontSize * 1}px ${this.fontFamily}`;
+        context.font = `${this.fontSize * 1.5}px ${this.fontFamily}`;
+        context.fillText(`You did it!!!`, gw * 0.5, gh * 0.5 - 150);
+        context.font = `${this.fontSize * 4}px ${this.fontFamily}`;
+        const heading = `Happy Birthday Anya!!!`;
+        context.fillText(heading, gw * 0.5, gh * 0.5 - 30);
+        context.font = `${this.fontSize * 1.25}px ${this.fontFamily}`;
         context.fillText(
-          `What are the creatures of the night afraid of? ...YOU!!!`,
-          this.game.width * 0.5,
-          this.game.height * 0.5 + 20
+          `What are the creatures of the night afraid of?...`,
+          gw * 0.5,
+          gh * 0.5 + 30
         );
-        // context.fillText(
-        //   ``,
-        //   this.game.width * 0.5,
-        //   this.game.height * 0.5 + 60
-        // );
+        context.font = `${this.fontSize * 4}px ${this.fontFamily}`;
+        context.fillText(`YOU!!!`, gw * 0.5, gh * 0.5 + 145);
       } else {
-        // const message = playerWon
-        //   ? `What are the creatures of the night afraid of? YOU!!!`
-        //   : `Better luck next time!`;
+        context.font = `${this.fontSize * 4}px ${this.fontFamily}`;
+        const heading = `Game Over!`;
+        context.fillText(heading, gw * 0.5, gh * 0.5 - 10);
         const message = `You did not survive the night!!`;
-        context.font = `${this.fontSize * 1}px ${this.fontFamily}`;
-        context.fillText(
-          message,
-          this.game.width * 0.5,
-          this.game.height * 0.5 + 20
-        );
+        context.font = `${this.fontSize * 1.5}px ${this.fontFamily}`;
+        context.fillText(message, gw * 0.5, gh * 0.5 + 50);
       }
     }
     //context.restore();
