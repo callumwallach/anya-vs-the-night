@@ -271,7 +271,7 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.background.draw(ctx);
     game.loading.draw(ctx);
-    window.addEventListener("pointerdown", startGame, { once: true });
+    canvas.addEventListener("pointerdown", startGame, { once: true });
   }
   run();
 });
