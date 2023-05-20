@@ -205,9 +205,6 @@ window.addEventListener("load", () => {
       // pointer conditions
       if (this.pointer === TOUCH) {
         this.maxParticles = Math.min(25, this.maxParticles);
-        window.addEventListener("deviceorientation", (event) => {
-          console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
-        });
       }
       // enter state
       this.player.currentState = this.player.states[0];

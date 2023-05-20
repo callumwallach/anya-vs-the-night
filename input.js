@@ -18,6 +18,8 @@ import {
   R,
 } from "./constants.js";
 
+const TOUCH = "touch";
+
 class InputHandler {
   constructor(game) {
     this.game = game;
@@ -104,6 +106,11 @@ class InputHandler {
       );
       if (action && !this.#contains(action)) this.keys.push(action);
     });
+    if (this.game.pointer === TOUCH) {
+      // window.addEventListener("deviceorientation", (event) => {
+      //   console.log(`x:${event.beta} y:${event.gamma}`);
+      // });
+    }
   }
   #getAction(startX, endX, startY, endY, thresholdX, thresholdY) {
     //console.log(startX, endX, startY, endY, thresholdX, thresholdY);
