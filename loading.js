@@ -19,7 +19,6 @@ class Loading {
     context.textAlign = "center";
     context.font = `${this.fontSize * 2.5}px ${this.fontFamily}`;
     //context.font = `7rem ${this.fontFamily}`;
-
     const heading = `Anya vs The Night`;
     const message1 = `It's Anya's birthday tomorrow... she will be 8`;
     const message2 = `But first... she must battle the forces of the night!!`;

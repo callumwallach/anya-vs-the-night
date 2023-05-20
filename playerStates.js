@@ -17,15 +17,6 @@ const DIVING = "DIVING";
 const HIT = "HIT";
 
 const states = {
-  // SITTING: 0,
-  // RUNNING: 1,
-  // JUMPING: 2,
-  // FALLING: 3,
-  // ROLLING: 4,
-  // DIVING: 5,
-  // HIT: 6,
-  // EMPOWERED: 7,
-  // KNOCKED: 8,
   STANDING: 0,
   SITTING: 1,
   RUNNING: 2,

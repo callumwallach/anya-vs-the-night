@@ -12,6 +12,9 @@ import {
   ExplosionAnimation,
 } from "./collisionAnimation.js";
 
+const MOUSE = "mouse";
+const TOUCH = "touch";
+
 let myFont = new FontFace(
   "Creepster",
   "url(https://fonts.gstatic.com/s/creepster/v13/AlZy_zVUqJz4yMrniH4Rcn35.woff2)"
@@ -50,6 +53,7 @@ window.addEventListener("load", () => {
 
   class Game {
     constructor(width, height) {
+      this.pointer = MOUSE;
       this.width = width;
       this.height = height;
       this.groundMargin = 40;
@@ -198,6 +202,13 @@ window.addEventListener("load", () => {
       this.time = 0;
       this.gameOver = false;
       this.success = false;
+      // pointer conditions
+      if (this.pointer === TOUCH) {
+        this.maxParticles = Math.min(25, this.maxParticles);
+        window.addEventListener("deviceorientation", (event) => {
+          console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
+        });
+      }
       // enter state
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
@@ -239,10 +250,6 @@ window.addEventListener("load", () => {
     if (!game.gameOver) animationRequest = requestAnimationFrame(animate);
   }
 
-  function startGame() {
-    game.startNewGame();
-  }
-
   function processURLParams(urlParams) {
     const a = urlParams.get("player");
     if (a) character = a;
@@ -271,7 +278,15 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.background.draw(ctx);
     game.loading.draw(ctx);
-    canvas.addEventListener("pointerdown", startGame, { once: true });
+    canvas.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (e.pointerType === MOUSE) game.pointer = MOUSE;
+        if (e.pointerType === TOUCH) game.pointer = TOUCH;
+        game.startNewGame();
+      },
+      { once: true }
+    );
   }
   run();
 });
