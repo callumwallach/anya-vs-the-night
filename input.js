@@ -86,7 +86,7 @@ class InputHandler {
       }
     });
     window.addEventListener("touchstart", (e) => {
-      e.preventDefault();
+      //e.preventDefault();
       this.touchX = e.changedTouches[0].clientX;
       this.touchY = e.changedTouches[0].clientY;
       //console.log(e.changedTouches);
