@@ -84,8 +84,18 @@ class InputHandler {
       }
     });
     window.addEventListener("touchstart", (e) => {
-      this.touchX = e.changedTouches[0].pageX;
-      this.touchY = e.changedTouches[0].pageY;
+      this.touchX = e.changedTouches[0].clientX;
+      this.touchY = e.changedTouches[0].clientY;
+      if (
+        this.touchX > this.game.touchRollIcon.dx &&
+        this.touchX <
+          this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
+        this.touchY > this.game.touchRollIcon.dy &&
+        this.touchY <
+          this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+      ) {
+        if (!this.#contains(ENTER)) this.keys.push(ENTER);
+      }
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
@@ -100,9 +110,9 @@ class InputHandler {
 
       const action = this.#getAction(
         this.touchX,
-        e.changedTouches[0].pageX,
+        e.changedTouches[0].clientX,
         this.touchY,
-        e.changedTouches[0].pageY
+        e.changedTouches[0].clientY
       );
       if (action && !this.#contains(action)) this.keys.push(action);
     });

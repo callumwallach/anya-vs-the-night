@@ -34,7 +34,7 @@ class Player {
     this.game = game;
     this.width = 0; //100;
     this.height = 0; //91.3;
-    this.x = 0;
+    this.x = this.game.pointer === "touch" ? 100 : 50;
     this.y = 0; //this.#getGround();
     this.vx = 0;
     this.vy = 0;
@@ -42,21 +42,21 @@ class Player {
     // console.log(girl.frames);
     // const
     //this.image = player;
-    let appearance;
+    this.appearance;
     switch (character.toLowerCase()) {
       case appearances.BOY:
-        appearance = boy;
+        this.appearance = boy;
         break;
       case appearances.GIRL:
-        appearance = girl;
+        this.appearance = girl;
         break;
       case appearances.DOG:
       default:
-        appearance = dog;
+        this.appearance = dog;
         break;
     }
     //console.log(character, appearance);
-    this.image = document.getElementById(appearance.imageName);
+    this.image = document.getElementById(this.appearance.imageName);
     this.offsetY = null;
     this.frameX = 0;
     this.frameY = 0;
@@ -69,16 +69,16 @@ class Player {
     this.speed = 0;
     this.maxSpeed = 10;
     this.states = [
-      new Standing(this.game, appearance),
-      new Sitting(this.game, appearance),
-      new Running(this.game, appearance),
-      new Jumping(this.game, appearance),
-      new Falling(this.game, appearance),
-      new Rolling(this.game, appearance),
-      new Diving(this.game, appearance),
-      new Hit(this.game, appearance),
-      new Empowered(this.game, appearance),
-      new KnockedBack(this.game, appearance),
+      new Standing(this.game, this.appearance),
+      new Sitting(this.game, this.appearance),
+      new Running(this.game, this.appearance),
+      new Jumping(this.game, this.appearance),
+      new Falling(this.game, this.appearance),
+      new Rolling(this.game, this.appearance),
+      new Diving(this.game, this.appearance),
+      new Hit(this.game, this.appearance),
+      new Empowered(this.game, this.appearance),
+      new KnockedBack(this.game, this.appearance),
     ];
     this.currentState = null;
     this.knockBackMaxX = 30;
@@ -170,6 +170,20 @@ class Player {
       this.width,
       this.height
     );
+  }
+  getTouchRollIcon() {
+    const rollingState = new Rolling(this.game, this.appearance);
+    return {
+      image: this.image,
+      sx: 0,
+      sy: rollingState.getDimensions().offsetY,
+      sWidth: rollingState.getDimensions().width,
+      sHeight: rollingState.getDimensions().height,
+      dx: 16,
+      dy: this.game.height - 75,
+      dWidth: 65,
+      dHeight: 65,
+    };
   }
   #getEllipseHitBox() {
     const horizontalCentrePoint = this.x + this.width * 0.55;

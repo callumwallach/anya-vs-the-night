@@ -11,6 +11,7 @@ import {
   CollisionAnimation,
   ExplosionAnimation,
 } from "./collisionAnimation.js";
+import Controls from "./controls.js";
 
 const MOUSE = "mouse";
 const TOUCH = "touch";
@@ -128,6 +129,7 @@ window.addEventListener("load", () => {
       this.projectiles.forEach((projectile) => projectile.draw(context));
       this.particles.forEach((particle) => particle.draw(context));
       this.collisions.forEach((collision) => collision.draw(context));
+      if (this.pointer === TOUCH) this.controls.draw(context);
       this.floatingMessages.forEach((message) => message.draw(context));
       this.UI.draw(context);
     }
@@ -185,6 +187,8 @@ window.addEventListener("load", () => {
       this.speed = 0;
       this.maxSpeed = 4;
       this.player = new Player(this, this.character);
+      this.touchRollIcon = this.player.getTouchRollIcon();
+      this.controls = new Controls(this);
       this.input = new InputHandler(this);
       this.background = new Background(this);
       this.UI = new UI(this);
