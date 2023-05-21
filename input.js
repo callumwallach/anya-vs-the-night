@@ -145,7 +145,7 @@ class InputHandler {
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
-      e.preventDefault();
+      //e.preventDefault();
 
       this.keys.splice(this.keys.indexOf(MOVE_UP), 1);
       this.keys.splice(this.keys.indexOf(MOVE_DOWN), 1);
