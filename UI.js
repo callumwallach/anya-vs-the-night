@@ -137,7 +137,7 @@ class UI {
         context.fillText(message2, gw * 0.5, gh * 0.5 + 80);
       }
     }
-    //context.restore();
+    context.restore();
     // debug
     // context.fillText(`Speed: ${this.game.speed}`, 20, 100);
     // context.fillText(`State: ${this.game.player.currentState.state}`, 20, 120);
