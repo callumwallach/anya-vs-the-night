@@ -140,6 +140,8 @@ class InputHandler {
         this.touchY - rect.top <
           this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
       ) {
+        this.touchX = this.game.player.x;
+        this.touchY = this.game.player.y;
         if (!this.#contains(ENTER)) this.keys.push(ENTER);
       }
       if (this.game.gameOver) this.game.startNewGame();
@@ -153,7 +155,7 @@ class InputHandler {
       this.keys.splice(this.keys.indexOf(MOVE_RIGHT), 1);
     });
     window.addEventListener("touchmove", (e) => {
-      e.preventDefault();
+      //e.preventDefault();
 
       // const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
       // const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
