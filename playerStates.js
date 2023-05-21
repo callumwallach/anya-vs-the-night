@@ -255,7 +255,11 @@ class Diving extends State {
       )
     );
     if (this.game.player.isOnGround()) {
-      this.game.player.setState(states.RUNNING, 1);
+      if (this.game.pointer === "touch") {
+        this.game.player.setState(states.EMPOWERED, 2);
+      } else {
+        this.game.player.setState(states.RUNNING, 1);
+      }
       for (let i = 0; i < 30; i++) {
         this.game.particles.unshift(
           new Splash(

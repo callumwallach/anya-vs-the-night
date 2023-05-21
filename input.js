@@ -28,6 +28,7 @@ class InputHandler {
     this.touchY = "";
     this.touchThresholdX = 30;
     this.touchThresholdY = 30;
+    //this.tapInterval = 200;
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case ARROW_UP:
@@ -84,18 +85,28 @@ class InputHandler {
       }
     });
     window.addEventListener("touchstart", (e) => {
+      //e.preventDefault();
       this.touchX = e.changedTouches[0].clientX;
       this.touchY = e.changedTouches[0].clientY;
-      if (
-        this.touchX > this.game.touchRollIcon.dx &&
-        this.touchX <
-          this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
-        this.touchY > this.game.touchRollIcon.dy &&
-        this.touchY <
-          this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
-      ) {
-        if (!this.#contains(ENTER)) this.keys.push(ENTER);
-      }
+      // const time = Date.now();
+      // if (time - this.lastTap < this.tapInterval) {
+      //   if (this.#contains(ENTER)) {
+      //     this.keys.splice(this.keys.indexOf(ENTER), 1);
+      //   } else {
+      //     this.keys.push(ENTER);
+      //   }
+      // }
+      // this.lastTap = time;
+      // if (
+      //   this.touchX > this.game.touchRollIcon.dx &&
+      //   this.touchX <
+      //     this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
+      //   this.touchY > this.game.touchRollIcon.dy &&
+      //   this.touchY <
+      //     this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+      // ) {
+      //   if (!this.#contains(ENTER)) this.keys.push(ENTER);
+      // }
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
