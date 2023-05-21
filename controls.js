@@ -17,8 +17,8 @@ class Controls {
         this.icon.dWidth,
         this.icon.dHeight
       );
+      context.stroke();
     }
-    context.stroke();
     context.drawImage(
       this.icon.image,
       this.icon.sx,
