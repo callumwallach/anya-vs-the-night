@@ -28,6 +28,7 @@ class InputHandler {
     this.touchY = "";
     this.touchThresholdX = 30;
     this.touchThresholdY = 30;
+    this.canvas = document.getElementById("canvas1");
     //this.tapInterval = 200;
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
@@ -85,9 +86,43 @@ class InputHandler {
       }
     });
     window.addEventListener("touchstart", (e) => {
-      //e.preventDefault();
+      e.preventDefault();
       this.touchX = e.changedTouches[0].clientX;
       this.touchY = e.changedTouches[0].clientY;
+      //console.log(e.changedTouches);
+      //const context = canvas.getContext("2d");
+      // context.save();
+      // context.fillStyle = "white";
+      // context.fillRect(this.touchX, this.touchY, 10, 10);
+      // context.restore();
+      var rect = this.canvas.getBoundingClientRect();
+      // console.log(
+      //   this.game.player.y,
+      //   this.touchY,
+      //   "+",
+      //   rect.top.toFixed(0) / 2,
+      //   "=",
+      //   (this.touchY + rect.top / 2).toFixed(0),
+      //   this.game.touchRollIcon.dy,
+      //   "=>",
+      //   this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+      // );
+      //this.touchX -= rect.left;
+      //this.touchY -= rect.top;
+      //this.touchY = e.targetTouches[0].pageY - rect.top;
+      // console.log(
+      //   rect.top,
+      //   this.touchX,
+      //   this.touchY,
+      //   this.game.touchRollIcon.dx,
+      //   "=>",
+      //   this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth,
+      //   this.game.touchRollIcon.dy,
+      //   "=>",
+      //   this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight,
+      //   "|",
+      //   this.game.height
+      // );
       // const time = Date.now();
       // if (time - this.lastTap < this.tapInterval) {
       //   if (this.#contains(ENTER)) {
@@ -97,25 +132,29 @@ class InputHandler {
       //   }
       // }
       // this.lastTap = time;
-      // if (
-      //   this.touchX > this.game.touchRollIcon.dx &&
-      //   this.touchX <
-      //     this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
-      //   this.touchY > this.game.touchRollIcon.dy &&
-      //   this.touchY <
-      //     this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
-      // ) {
-      //   if (!this.#contains(ENTER)) this.keys.push(ENTER);
-      // }
+      if (
+        this.touchX - rect.left > this.game.touchRollIcon.dx &&
+        this.touchX - rect.left <
+          this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
+        this.touchY - rect.top > this.game.touchRollIcon.dy &&
+        this.touchY - rect.top <
+          this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+      ) {
+        if (!this.#contains(ENTER)) this.keys.push(ENTER);
+      }
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
+      e.preventDefault();
+
       this.keys.splice(this.keys.indexOf(MOVE_UP), 1);
       this.keys.splice(this.keys.indexOf(MOVE_DOWN), 1);
       this.keys.splice(this.keys.indexOf(MOVE_LEFT), 1);
       this.keys.splice(this.keys.indexOf(MOVE_RIGHT), 1);
     });
     window.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+
       // const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
       // const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
 

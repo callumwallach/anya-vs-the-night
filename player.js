@@ -172,13 +172,12 @@ class Player {
     );
   }
   getTouchRollIcon() {
-    const rollingState = new Rolling(this.game, this.appearance);
     return {
       image: this.image,
       sx: 0,
-      sy: rollingState.getDimensions().offsetY,
-      sWidth: rollingState.getDimensions().width,
-      sHeight: rollingState.getDimensions().height,
+      sy: this.states[PLAYER_STATES.ROLLING].getDimensions().offsetY,
+      sWidth: this.states[PLAYER_STATES.ROLLING].getDimensions().width,
+      sHeight: this.states[PLAYER_STATES.ROLLING].getDimensions().height,
       dx: 16,
       dy: this.game.height - 75,
       dWidth: 65,
