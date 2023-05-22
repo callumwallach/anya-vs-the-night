@@ -13,6 +13,7 @@ import {
 } from "./collisionAnimation.js";
 import Controls from "./controls.js";
 import settings from "./settings.js";
+import showMosaic from "./mosaic.js";
 
 const MOUSE = "mouse";
 const TOUCH = "touch";
@@ -261,7 +262,11 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update(deltaTime);
     game.draw(ctx);
-    if (!game.gameOver) animationRequest = requestAnimationFrame(animate);
+    if (!game.gameOver) {
+      animationRequest = requestAnimationFrame(animate);
+    } else {
+      showMosaic(canvas);
+    }
   }
 
   function processURLParams(urlParams) {

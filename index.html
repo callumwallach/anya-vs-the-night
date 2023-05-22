@@ -16,6 +16,11 @@
   </head>
   <body>
     <canvas id="canvas1"></canvas>
+    <div class="img-zoom-container">
+      <img id="mosaic" src="assets/anya.jpg" />
+      <div id="zoomed" class="img-zoom-result"></div>
+    </div>
+
     <img id="dog" src="assets/dog.png" />
     <img id="girl" src="assets/girl.png" />
     <img id="boy" src="assets/boy.png" />
@@ -40,6 +45,7 @@
 
     <p id="loading">loading...</p>
     <button id="fullScreenButton">Toggle Fullscreen</button>
+    <button id="toggleGameButton">Toggle Game</button>
 
     <script type="module" src="main.js"></script>
   </body>
