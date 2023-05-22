@@ -174,14 +174,10 @@ class Player {
   getTouchRollIcon() {
     return {
       image: this.image,
-      sx: 0,
-      sy: this.states[PLAYER_STATES.ROLLING].getDimensions().offsetY,
-      sWidth: this.states[PLAYER_STATES.ROLLING].getDimensions().width,
-      sHeight: this.states[PLAYER_STATES.ROLLING].getDimensions().height,
-      dx: 16,
-      dy: this.game.height - 75,
-      dWidth: 65,
-      dHeight: 65,
+      x: 0,
+      y: this.states[PLAYER_STATES.ROLLING].getDimensions().offsetY,
+      width: this.states[PLAYER_STATES.ROLLING].getDimensions().width,
+      height: this.states[PLAYER_STATES.ROLLING].getDimensions().height,
     };
   }
   #getEllipseHitBox() {

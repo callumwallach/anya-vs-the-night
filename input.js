@@ -21,14 +21,10 @@ import {
 const TOUCH = "touch";
 
 class InputHandler {
-  constructor(game) {
+  constructor(game, canvas) {
     this.game = game;
-    this.keys = [];
-    this.touchX = "";
-    this.touchY = "";
-    this.touchThresholdX = 30;
-    this.touchThresholdY = 30;
-    this.canvas = document.getElementById("canvas1");
+    this.canvas = canvas;
+    this.init();
     //this.tapInterval = 200;
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
@@ -86,16 +82,17 @@ class InputHandler {
       }
     });
     window.addEventListener("touchstart", (e) => {
-      //e.preventDefault();
-      this.touchX = e.changedTouches[0].clientX;
-      this.touchY = e.changedTouches[0].clientY;
+      //console.log(e);
+      e.preventDefault();
+      this.touchX = e.changedTouches[0].pageX;
+      this.touchY = e.changedTouches[0].pageY;
       //console.log(e.changedTouches);
       //const context = canvas.getContext("2d");
       // context.save();
       // context.fillStyle = "white";
       // context.fillRect(this.touchX, this.touchY, 10, 10);
       // context.restore();
-      var rect = this.canvas.getBoundingClientRect();
+      //var rect = this.canvas.getBoundingClientRect();
       // console.log(
       //   this.game.player.y,
       //   this.touchY,
@@ -132,39 +129,73 @@ class InputHandler {
       //   }
       // }
       // this.lastTap = time;
+      // if (
+      //   this.touchX - rect.left > this.game.touchRollIcon.dx &&
+      //   this.touchX - rect.left <
+      //     this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
+      //   this.touchY - rect.top > this.game.touchRollIcon.dy &&
+      //   this.touchY - rect.top <
+      //     this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+      // ) {
+      //   this.touchX = this.game.player.x;
+      //   this.touchY = this.game.player.y;
+      //   if (!this.#contains(ENTER)) this.keys.push(ENTER);
+      // }
+      //this.tapStart = Date.now();
+      const rect = this.canvas.getBoundingClientRect();
       if (
-        this.touchX - rect.left > this.game.touchRollIcon.dx &&
-        this.touchX - rect.left <
-          this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
-        this.touchY - rect.top > this.game.touchRollIcon.dy &&
-        this.touchY - rect.top <
-          this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
+        this.game.controls.isClicked(
+          this.touchX,
+          this.touchY
+          // this.touchX - (this.game.fullScreen ? 0 : rect.left),
+          // this.touchY - (this.game.fullScreen ? 0 : rect.top)
+        )
       ) {
-        this.touchX = this.game.player.x;
-        this.touchY = this.game.player.y;
-        if (!this.#contains(ENTER)) this.keys.push(ENTER);
+        this.controlsClicked = !this.controlsClicked;
+        //if (!this.#contains(ENTER)) this.keys.push(ENTER);
       }
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
       //e.preventDefault();
+      // if (
+      //   e.changedTouches[0].pageX === this.touchX &&
+      //   e.changedTouches[0].pageY === this.touchY
+      // ) {
+      //   const rect = this.canvas.getBoundingClientRect();
+      //   if (
+      //     this.game.controls.isClicked(
+      //       this.touchX - rect.left,
+      //       this.touchY - rect.top
+      //     )
+      //   ) {
+      //     this.controlsClicked = !this.controlsClicked;
+      //   }
+      // }
 
-      this.keys.splice(this.keys.indexOf(MOVE_UP), 1);
-      this.keys.splice(this.keys.indexOf(MOVE_DOWN), 1);
-      this.keys.splice(this.keys.indexOf(MOVE_LEFT), 1);
-      this.keys.splice(this.keys.indexOf(MOVE_RIGHT), 1);
+      this.keys = [];
+      //console.log(this.controlsClicked ? "active" : "inactive");
+      if (this.controlsClicked) {
+        if (!this.#contains(ENTER)) this.keys.push(ENTER);
+      }
+
+      // if (this.controlsClicked) this.keys.push(ENTER);
+      // this.keys.splice(this.keys.indexOf(MOVE_UP), 1);
+      // this.keys.splice(this.keys.indexOf(MOVE_DOWN), 1);
+      // this.keys.splice(this.keys.indexOf(MOVE_LEFT), 1);
+      // this.keys.splice(this.keys.indexOf(MOVE_RIGHT), 1);
     });
     window.addEventListener("touchmove", (e) => {
-      //e.preventDefault();
+      e.preventDefault();
 
       // const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
       // const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
-
+      console.log("move");
       const action = this.#getAction(
         this.touchX,
-        e.changedTouches[0].clientX,
+        e.changedTouches[0].pageX,
         this.touchY,
-        e.changedTouches[0].clientY
+        e.changedTouches[0].pageY
       );
       if (action && !this.#contains(action)) this.keys.push(action);
     });
@@ -173,6 +204,14 @@ class InputHandler {
       //   console.log(`x:${event.beta} y:${event.gamma}`);
       // });
     }
+  }
+  init() {
+    this.keys = [];
+    this.touchX = "";
+    this.touchY = "";
+    this.touchThresholdX = 30;
+    this.touchThresholdY = 30;
+    this.controlsClicked = false;
   }
   #getAction(startX, endX, startY, endY, thresholdX, thresholdY) {
     //console.log(startX, endX, startY, endY, thresholdX, thresholdY);

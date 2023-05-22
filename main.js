@@ -61,6 +61,8 @@ window.addEventListener("load", () => {
       this.isLoading = true;
       this.fontColor = "black";
       this.maxTime = maxTime;
+      this.fullScreen = false;
+      this.input = new InputHandler(this, canvas);
       this.init();
     }
     update(deltaTime) {
@@ -187,9 +189,8 @@ window.addEventListener("load", () => {
       this.speed = 0;
       this.maxSpeed = 4;
       this.player = new Player(this, this.character);
-      this.touchRollIcon = this.player.getTouchRollIcon();
-      this.controls = new Controls(this);
-      this.input = new InputHandler(this);
+      this.controls = new Controls(this, this.player.getTouchRollIcon());
+      this.input.init();
       this.background = new Background(this);
       this.UI = new UI(this);
       this.loading = new Loading(this);
@@ -224,19 +225,22 @@ window.addEventListener("load", () => {
     }
   }
 
+  const game = new Game(canvas.width, canvas.height);
+
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
       canvas
         .requestFullscreen()
+        .then(() => {
+          game.fullScreen = true;
+        })
         .catch((err) =>
-          alert(`Error, can't enable full screen mode: ${err.message}`)
+          alert(`Error, can't enable full screen ${err.message}`)
         );
     } else {
       document.exitFullscreen();
     }
   }
-
-  const game = new Game(canvas.width, canvas.height);
 
   function animate(timeStamp) {
     let deltaTime = timeStamp - lastTime;
