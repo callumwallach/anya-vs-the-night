@@ -6,6 +6,7 @@
 
 body {
   background-color: #181a1b;
+  overscroll-behavior-y: contain;
 }
 
 #canvas1 {
