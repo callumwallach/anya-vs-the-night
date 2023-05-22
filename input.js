@@ -84,8 +84,9 @@ class InputHandler {
     window.addEventListener("touchstart", (e) => {
       //console.log(e);
       e.preventDefault();
-      this.touchX = e.changedTouches[0].pageX;
-      this.touchY = e.changedTouches[0].pageY;
+      this.touchX = e.changedTouches[0].clientX;
+      this.touchY = e.changedTouches[0].clientY;
+      //console.log(e.changedTouches[0]);
       //console.log(e.changedTouches);
       //const context = canvas.getContext("2d");
       // context.save();
@@ -146,7 +147,9 @@ class InputHandler {
       if (
         this.game.controls.isClicked(
           this.touchX,
-          this.touchY
+          this.touchY,
+          rect,
+          getOffsetSum(e.changedTouches[0].target)
           // this.touchX - (this.game.fullScreen ? 0 : rect.left),
           // this.touchY - (this.game.fullScreen ? 0 : rect.top)
         )
@@ -243,6 +246,21 @@ class InputHandler {
     }
     return false;
   }
+}
+
+function getOffsetSum(element) {
+  let curleft = 0,
+    curtop = 0;
+
+  if (element.offsetParent) {
+    do {
+      curleft += element.offsetLeft;
+      curtop += element.offsetTop;
+      element = element.offsetParent;
+    } while (element);
+  }
+
+  return { x: curleft, y: curtop };
 }
 
 export default InputHandler;

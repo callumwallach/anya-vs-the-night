@@ -54,7 +54,7 @@ window.addEventListener("load", () => {
 
   class Game {
     constructor(width, height) {
-      this.version = 1;
+      this.version = 1.1;
       console.log("version:", this.version);
       this.pointer = MOUSE;
       this.width = width;
@@ -294,6 +294,9 @@ window.addEventListener("load", () => {
       },
       { once: true }
     );
+    window.addEventListener("resize", function () {
+      console.log("window resize", canvas.width, canvas.height);
+    });
   }
   run();
 });

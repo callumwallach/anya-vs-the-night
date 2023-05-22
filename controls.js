@@ -34,7 +34,7 @@ class Controls {
     );
     context.drawImage(this.fireImage, 5, this.game.height - 113, 90, 100);
   }
-  isClicked(x, y) {
+  isClicked(x, y, rect, offset) {
     console.log("----------------------");
     console.log(
       "x:",
@@ -44,7 +44,18 @@ class Controls {
       "=>",
       this.x + this.width,
       ")",
-      x > this.x && x < this.x + this.width
+      x > this.x && x < this.x + this.width,
+      "(",
+      x,
+      "-",
+      rect.left.toFixed(0),
+      x - rect.left > this.x && x - rect.left < this.x + this.width,
+      "|",
+      x,
+      "+",
+      offset.x.toFixed(0),
+      x - offset.x > this.x && x - offset.x < this.x + this.width,
+      ")"
     );
     console.log(
       "y:",
@@ -54,7 +65,18 @@ class Controls {
       "=>",
       this.y + this.height,
       ")",
-      y > this.y && y < this.y + this.height
+      y > this.y && y < this.y + this.height,
+      "(",
+      y,
+      "-",
+      rect.top.toFixed(0),
+      y - rect.top > this.y && y - rect.top < this.y + this.height,
+      "|",
+      y,
+      "+",
+      offset.y.toFixed(0),
+      y + offset.y > this.y && y + offset.y < this.y + this.height,
+      ")"
     );
     let clicked = true;
     if (
