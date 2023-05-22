@@ -190,7 +190,6 @@ class InputHandler {
 
       // const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
       // const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
-      console.log("move");
       const action = this.#getAction(
         this.touchX,
         e.changedTouches[0].pageX,

@@ -35,6 +35,27 @@ class Controls {
     context.drawImage(this.fireImage, 5, this.game.height - 113, 90, 100);
   }
   isClicked(x, y) {
+    console.log("----------------------");
+    console.log(
+      "x:",
+      x,
+      "(",
+      this.x,
+      "=>",
+      this.x + this.width,
+      ")",
+      x > this.x && x < this.x + this.width
+    );
+    console.log(
+      "y:",
+      y,
+      "(",
+      this.y,
+      "=>",
+      this.y + this.height,
+      ")",
+      y > this.y && y < this.y + this.height
+    );
     let clicked = true;
     if (
       this.y + this.height < y ||
