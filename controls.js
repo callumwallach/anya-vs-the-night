@@ -84,7 +84,7 @@ class Controls {
     //   ")"
     // );
     const dx = this.x; //this.game.fullScreen ? this.x - offsetX : this.x;
-    const dy = this.game.fullScreen ? this.y - offsetY : this.y;
+    const dy = this.y; //this.game.fullScreen ? this.y - offsetY : this.y;
     // console.log(
     //   "x:",
     //   x,
