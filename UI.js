@@ -1,10 +1,12 @@
+import settings from "./settings.js";
+
 class UI {
   constructor(game) {
     this.game = game;
     this.fontSize = 30;
     this.fontFamily = "Creepster";
     this.livesImage = document.getElementById("lives");
-    //this.fireImage = document.getElementById("fireBar");
+    this.text = settings[this.game.recipient].end;
   }
   update() {}
   draw(context) {
@@ -13,15 +15,13 @@ class UI {
     context.shadowOffsetY = 2;
     context.shadowColor = "white";
     context.shadowBlur = 0;
-    context.font = `${this.fontSize}px ${this.fontFamily}`;
-    // context.font = `2rem ${this.fontFamily}`;
     context.textAlign = "left";
     context.fillStyle = this.game.fontColor;
     //score
+    context.font = `${this.fontSize}px ${this.fontFamily}`;
     context.fillText(`Score: ${this.game.score}`, 20, 50);
     // timer
     context.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
-    //context.font = `1.6rem ${this.fontFamily}`;
     context.fillText(`Time: ${(this.game.time * 0.001).toFixed(1)}`, 20, 80);
     // lives
     for (let i = 0; i < this.game.lives; i++) {
@@ -98,49 +98,29 @@ class UI {
     }
     // game over
     if (this.game.gameOver) {
-      context.textAlign = "center";
       const gw = this.game.width;
       const gh = this.game.height;
+      context.textAlign = "center";
       context.fillStyle = "rgba(255,255,255,.1)";
       context.fillRect(0, 0, gw, gh);
       context.fillStyle = this.game.fontColor;
       if (this.game.success) {
-        context.font = `${this.fontSize * 1.2}px ${this.fontFamily}`;
-        //context.font = `3rem ${this.fontFamily}`;
-        context.fillText(`You did it!!!`, gw * 0.5, gh * 0.5 - 115);
-        context.font = `${this.fontSize * 3}px ${this.fontFamily}`;
-        //context.font = `7rem ${this.fontFamily}`;
-        const heading = `Happy Birthday Anya!!!`;
-        context.fillText(heading, gw * 0.5, gh * 0.5 - 20);
-        context.font = `${this.fontSize * 1}px ${this.fontFamily}`;
-        //context.font = `2.5rem ${this.fontFamily}`;
-        context.fillText(
-          `What are the creatures of the night afraid of?...`,
-          gw * 0.5,
-          gh * 0.5 + 30
-        );
-        context.font = `${this.fontSize * 3}px ${this.fontFamily}`;
-        //context.font = `7rem ${this.fontFamily}`;
-        context.fillText(`YOU!!!`, gw * 0.5, gh * 0.5 + 120);
+        this.text.success.forEach((line) => {
+          context.font = `${this.fontSize * line.fontSize}px ${
+            this.fontFamily
+          }`;
+          context.fillText(line.message, gw * 0.5, gh * 0.5 + line.position);
+        });
       } else {
-        context.font = `${this.fontSize * 3}px ${this.fontFamily}`;
-        //context.font = `8rem ${this.fontFamily}`;
-        const heading = `Game Over!`;
-        context.fillText(heading, gw * 0.5, gh * 0.5 - 30);
-        const message1 = `Anya did not survive the night!!...`;
-        context.font = `${this.fontSize * 1.2}px ${this.fontFamily}`;
-        //context.font = `2.5rem ${this.fontFamily}`;
-        context.fillText(message1, gw * 0.5, gh * 0.5 + 30);
-        const message2 = `Guess we'll have to give her presents to Esme instead!!`;
-        context.font = `${this.fontSize * 1.2}px ${this.fontFamily}`;
-        //context.font = `2.5rem ${this.fontFamily}`;
-        context.fillText(message2, gw * 0.5, gh * 0.5 + 80);
+        this.text.failure.forEach((line) => {
+          context.font = `${this.fontSize * line.fontSize}px ${
+            this.fontFamily
+          }`;
+          context.fillText(line.message, gw * 0.5, gh * 0.5 + line.position);
+        });
       }
     }
     context.restore();
-    // debug
-    // context.fillText(`Speed: ${this.game.speed}`, 20, 100);
-    // context.fillText(`State: ${this.game.player.currentState.state}`, 20, 120);
   }
 }
 

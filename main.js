@@ -1,6 +1,6 @@
 import UI from "./UI.js";
 import Loading from "./loading.js";
-import { appearances, Player } from "./player.js";
+import { Player } from "./player.js";
 import InputHandler from "./input.js";
 import Background from "./background.js";
 import { FlyingEnemy, GroundEnemy, ClimbingEnemy } from "./enemies.js";
@@ -12,9 +12,15 @@ import {
   ExplosionAnimation,
 } from "./collisionAnimation.js";
 import Controls from "./controls.js";
+import settings from "./settings.js";
 
 const MOUSE = "mouse";
 const TOUCH = "touch";
+
+const ANDREW = "andrew";
+const ANYA = "anya";
+
+const owner = ANYA;
 
 let myFont = new FontFace(
   "Creepster",
@@ -42,7 +48,6 @@ window.addEventListener("load", () => {
   let bossInterval = 1 * 60 * 1000;
   let bossMaxHealth = 250;
   let maxParticles = 50;
-  let character = appearances.GIRL;
   let sound = true;
   let powerBar = true;
   let debug = false;
@@ -53,9 +58,10 @@ window.addEventListener("load", () => {
   }
 
   class Game {
-    constructor(width, height) {
+    constructor(recipient, width, height) {
       this.version = 1.4;
       console.log("version:", this.version);
+      this.recipient = recipient;
       this.pointer = MOUSE;
       this.width = width;
       this.height = height;
@@ -185,7 +191,8 @@ window.addEventListener("load", () => {
       this.enemyInterval = enemyInterval;
       this.bossInterval = bossInterval;
       this.bossMaxHealth = bossMaxHealth;
-      this.character = character;
+      //console.log(settings[this.recipient]);
+      this.character = settings[this.recipient].character;
       this.fps = fps;
       // local resets
       this.speed = 0;
@@ -227,7 +234,7 @@ window.addEventListener("load", () => {
     }
   }
 
-  const game = new Game(canvas.width, canvas.height);
+  const game = new Game(owner, canvas.width, canvas.height);
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
