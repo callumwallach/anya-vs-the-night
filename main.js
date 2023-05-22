@@ -54,7 +54,7 @@ window.addEventListener("load", () => {
 
   class Game {
     constructor(width, height) {
-      this.version = 1.2;
+      this.version = 1.3;
       console.log("version:", this.version);
       this.pointer = MOUSE;
       this.width = width;
