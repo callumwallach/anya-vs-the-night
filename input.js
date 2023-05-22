@@ -84,8 +84,8 @@ class InputHandler {
     window.addEventListener("touchstart", (e) => {
       //console.log(e);
       e.preventDefault();
-      this.touchX = e.changedTouches[0].clientX;
-      this.touchY = e.changedTouches[0].clientY;
+      this.touchX = e.changedTouches[0].pageX;
+      this.touchY = e.changedTouches[0].pageY;
       //console.log(e.changedTouches[0]);
       //console.log(e.changedTouches);
       //const context = canvas.getContext("2d");
@@ -143,13 +143,28 @@ class InputHandler {
       //   if (!this.#contains(ENTER)) this.keys.push(ENTER);
       // }
       //this.tapStart = Date.now();
-      const rect = this.canvas.getBoundingClientRect();
+      //const rect = this.canvas.getBoundingClientRect();
+      const pos = getMousePos(this.canvas, e.changedTouches[0]);
+      // console.log(
+      //   "width:",
+      //   window.innerWidth,
+      //   this.canvas.width,
+      //   (window.innerWidth - this.canvas.width) / 2
+      // );
+      console.log(
+        "height:",
+        window.innerHeight,
+        this.canvas.height,
+        (window.innerHeight - this.canvas.height) / 2
+      );
       if (
         this.game.controls.isClicked(
-          this.touchX,
-          this.touchY,
-          rect,
-          getOffsetSum(e.changedTouches[0].target)
+          pos.x, //this.touchX,
+          pos.y, //this.touchY,
+          (window.innerWidth - this.canvas.width) / 2,
+          (window.innerHeight - this.canvas.height) / 2
+          // rect,
+          // getOffsetSum(e.changedTouches[0].target)
           // this.touchX - (this.game.fullScreen ? 0 : rect.left),
           // this.touchY - (this.game.fullScreen ? 0 : rect.top)
         )
@@ -246,6 +261,14 @@ class InputHandler {
     }
     return false;
   }
+}
+
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: ((evt.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
+    y: ((evt.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
+  };
 }
 
 function getOffsetSum(element) {
