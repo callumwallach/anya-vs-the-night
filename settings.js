@@ -1,6 +1,7 @@
 export default {
   andrew: {
     character: "boy",
+    title: "Andrew vs Father Time",
     loading: [
       { fontSize: 2, message: "Andrew vs Father Time", position: -20 },
       {
@@ -37,6 +38,7 @@ export default {
   },
   anya: {
     character: "girl",
+    title: "Anya vs The Night",
     loading: [
       { fontSize: 2.5, message: "Anya vs The Night", position: -50 },
       {
