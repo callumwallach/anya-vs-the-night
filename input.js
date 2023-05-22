@@ -25,7 +25,6 @@ class InputHandler {
     this.game = game;
     this.canvas = canvas;
     this.init();
-    //this.tapInterval = 200;
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case ARROW_UP:
@@ -86,128 +85,21 @@ class InputHandler {
       e.preventDefault();
       this.touchX = e.changedTouches[0].pageX;
       this.touchY = e.changedTouches[0].pageY;
-      //console.log(e.changedTouches[0]);
-      //console.log(e.changedTouches);
-      //const context = canvas.getContext("2d");
-      // context.save();
-      // context.fillStyle = "white";
-      // context.fillRect(this.touchX, this.touchY, 10, 10);
-      // context.restore();
-      //var rect = this.canvas.getBoundingClientRect();
-      // console.log(
-      //   this.game.player.y,
-      //   this.touchY,
-      //   "+",
-      //   rect.top.toFixed(0) / 2,
-      //   "=",
-      //   (this.touchY + rect.top / 2).toFixed(0),
-      //   this.game.touchRollIcon.dy,
-      //   "=>",
-      //   this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
-      // );
-      //this.touchX -= rect.left;
-      //this.touchY -= rect.top;
-      //this.touchY = e.targetTouches[0].pageY - rect.top;
-      // console.log(
-      //   rect.top,
-      //   this.touchX,
-      //   this.touchY,
-      //   this.game.touchRollIcon.dx,
-      //   "=>",
-      //   this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth,
-      //   this.game.touchRollIcon.dy,
-      //   "=>",
-      //   this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight,
-      //   "|",
-      //   this.game.height
-      // );
-      // const time = Date.now();
-      // if (time - this.lastTap < this.tapInterval) {
-      //   if (this.#contains(ENTER)) {
-      //     this.keys.splice(this.keys.indexOf(ENTER), 1);
-      //   } else {
-      //     this.keys.push(ENTER);
-      //   }
-      // }
-      // this.lastTap = time;
-      // if (
-      //   this.touchX - rect.left > this.game.touchRollIcon.dx &&
-      //   this.touchX - rect.left <
-      //     this.game.touchRollIcon.dx + this.game.touchRollIcon.dWidth &&
-      //   this.touchY - rect.top > this.game.touchRollIcon.dy &&
-      //   this.touchY - rect.top <
-      //     this.game.touchRollIcon.dy + this.game.touchRollIcon.dHeight
-      // ) {
-      //   this.touchX = this.game.player.x;
-      //   this.touchY = this.game.player.y;
-      //   if (!this.#contains(ENTER)) this.keys.push(ENTER);
-      // }
-      //this.tapStart = Date.now();
-      //const rect = this.canvas.getBoundingClientRect();
       const pos = getMousePos(this.canvas, e.changedTouches[0]);
-      // console.log(
-      //   "width:",
-      //   window.innerWidth,
-      //   this.canvas.width,
-      //   (window.innerWidth - this.canvas.width) / 2
-      // );
-      console.log(
-        "height:",
-        window.innerHeight,
-        this.canvas.height,
-        (window.innerHeight - this.canvas.height) / 2
-      );
-      if (
-        this.game.controls.isClicked(
-          pos.x, //this.touchX,
-          pos.y, //this.touchY,
-          (window.innerWidth - this.canvas.width) / 2,
-          (window.innerHeight - this.canvas.height) / 2
-          // rect,
-          // getOffsetSum(e.changedTouches[0].target)
-          // this.touchX - (this.game.fullScreen ? 0 : rect.left),
-          // this.touchY - (this.game.fullScreen ? 0 : rect.top)
-        )
-      ) {
+      if (this.game.controls.isClicked(pos.x, pos.y)) {
         this.controlsClicked = !this.controlsClicked;
-        //if (!this.#contains(ENTER)) this.keys.push(ENTER);
       }
       if (this.game.gameOver) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
-      //e.preventDefault();
-      // if (
-      //   e.changedTouches[0].pageX === this.touchX &&
-      //   e.changedTouches[0].pageY === this.touchY
-      // ) {
-      //   const rect = this.canvas.getBoundingClientRect();
-      //   if (
-      //     this.game.controls.isClicked(
-      //       this.touchX - rect.left,
-      //       this.touchY - rect.top
-      //     )
-      //   ) {
-      //     this.controlsClicked = !this.controlsClicked;
-      //   }
-      // }
-
       this.keys = [];
       //console.log(this.controlsClicked ? "active" : "inactive");
-      if (this.controlsClicked) {
+      if (this.controlsClicked)
         if (!this.#contains(ENTER)) this.keys.push(ENTER);
-      }
-
-      // if (this.controlsClicked) this.keys.push(ENTER);
-      // this.keys.splice(this.keys.indexOf(MOVE_UP), 1);
-      // this.keys.splice(this.keys.indexOf(MOVE_DOWN), 1);
-      // this.keys.splice(this.keys.indexOf(MOVE_LEFT), 1);
-      // this.keys.splice(this.keys.indexOf(MOVE_RIGHT), 1);
     });
     window.addEventListener("touchmove", (e) => {
       e.preventDefault();
 
-      // const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
-      // const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
       const action = this.#getAction(
         this.touchX,
         e.changedTouches[0].pageX,
@@ -216,11 +108,6 @@ class InputHandler {
       );
       if (action && !this.#contains(action)) this.keys.push(action);
     });
-    if (this.game.pointer === TOUCH) {
-      // window.addEventListener("deviceorientation", (event) => {
-      //   console.log(`x:${event.beta} y:${event.gamma}`);
-      // });
-    }
   }
   init() {
     this.keys = [];
@@ -264,26 +151,11 @@ class InputHandler {
 }
 
 function getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect();
   return {
     x: ((evt.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
     y: ((evt.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
   };
-}
-
-function getOffsetSum(element) {
-  let curleft = 0,
-    curtop = 0;
-
-  if (element.offsetParent) {
-    do {
-      curleft += element.offsetLeft;
-      curtop += element.offsetTop;
-      element = element.offsetParent;
-    } while (element);
-  }
-
-  return { x: curleft, y: curtop };
 }
 
 export default InputHandler;

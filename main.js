@@ -54,7 +54,7 @@ window.addEventListener("load", () => {
 
   class Game {
     constructor(width, height) {
-      this.version = 1.3;
+      this.version = 1.4;
       console.log("version:", this.version);
       this.pointer = MOUSE;
       this.width = width;
@@ -133,7 +133,7 @@ window.addEventListener("load", () => {
       this.projectiles.forEach((projectile) => projectile.draw(context));
       this.particles.forEach((particle) => particle.draw(context));
       this.collisions.forEach((collision) => collision.draw(context));
-      if (this.pointer === TOUCH) this.controls.draw(context);
+      this.controls.draw(context);
       this.floatingMessages.forEach((message) => message.draw(context));
       this.UI.draw(context);
     }
@@ -241,7 +241,6 @@ window.addEventListener("load", () => {
         );
     } else {
       document.exitFullscreen();
-      game.fullScreen = false;
     }
   }
 
@@ -297,7 +296,6 @@ window.addEventListener("load", () => {
     );
     window.addEventListener("resize", function () {
       console.log("window resize", canvas.width, canvas.height);
-      game.fullScreen = document.fullscreenElement;
     });
   }
   run();

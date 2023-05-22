@@ -16,6 +16,7 @@ class CollisionAnimation {
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
     if (this.game.sound) {
+      //this.sound = document.getElementById("boom");
       this.sound = new Audio();
       this.sound.src = "./assets/boom.wav";
     }
