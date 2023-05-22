@@ -33,6 +33,7 @@ myFont.load().then((font) => {
 });
 
 window.addEventListener("load", () => {
+  document.title = settings[owner].title;
   const canvas = document.getElementById("canvas1");
   canvas.style.display = "block";
   document.getElementById("loading").style.display = "none";
