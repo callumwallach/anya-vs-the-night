@@ -241,6 +241,7 @@ window.addEventListener("load", () => {
         );
     } else {
       document.exitFullscreen();
+      game.fullScreen = false;
     }
   }
 
@@ -296,6 +297,7 @@ window.addEventListener("load", () => {
     );
     window.addEventListener("resize", function () {
       console.log("window resize", canvas.width, canvas.height);
+      game.fullScreen = document.fullscreenElement;
     });
   }
   run();
