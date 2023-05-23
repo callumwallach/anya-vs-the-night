@@ -45,7 +45,7 @@ class InputHandler {
           if (!this.#contains(MOVE_RIGHT)) this.keys.push(MOVE_RIGHT);
           break;
         case ENTER:
-          if (this.game.gameOver) {
+          if (this.game.gameOver && this.game.isActive) {
             this.game.startNewGame();
             break;
           }
@@ -89,7 +89,7 @@ class InputHandler {
       if (this.game.controls.isClicked(pos.x, pos.y)) {
         this.controlsClicked = !this.controlsClicked;
       }
-      if (this.game.gameOver) this.game.startNewGame();
+      if (this.game.gameOver && this.game.isActive) this.game.startNewGame();
     });
     window.addEventListener("touchend", (e) => {
       this.keys = [];

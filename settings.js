@@ -38,7 +38,7 @@ export default {
   },
   anya: {
     character: "girl",
-    title: "Anya vs The Night",
+    title: "Anya is Awesome!!",
     loading: [
       { fontSize: 2.5, message: "Anya vs The Night", position: -50 },
       {
@@ -70,6 +70,11 @@ export default {
           fontSize: 3,
           message: "YOU!!!",
           position: +120,
+        },
+        {
+          fontSize: 0.75,
+          message: "( tap to continue )",
+          position: +160,
         },
       ],
       failure: [

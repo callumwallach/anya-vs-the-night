@@ -13,7 +13,7 @@ import {
 } from "./collisionAnimation.js";
 import Controls from "./controls.js";
 import settings from "./settings.js";
-import showMosaic from "./mosaic.js";
+import { imageZoomOn, imageZoomOff } from "./zoom.js";
 
 const MOUSE = "mouse";
 const TOUCH = "touch";
@@ -22,6 +22,8 @@ const ANDREW = "andrew";
 const ANYA = "anya";
 
 const owner = ANYA;
+
+let mode = "game";
 
 let myFont = new FontFace(
   "Creepster",
@@ -58,11 +60,14 @@ window.addEventListener("load", () => {
     fullScreenButton.style.display = "block";
     fullScreenButton.addEventListener("click", toggleFullScreen);
   }
+  const gameModeButton = document.getElementById("gameModeButton");
+  gameModeButton.addEventListener("click", gameMode);
+  const mosaicModeButton = document.getElementById("mosaicModeButton");
+  mosaicModeButton.addEventListener("click", mosaicMode);
 
   class Game {
     constructor(recipient, width, height) {
       this.version = 1.4;
-      console.log("version:", this.version);
       this.recipient = recipient;
       this.pointer = MOUSE;
       this.width = width;
@@ -184,6 +189,7 @@ window.addEventListener("load", () => {
       if (this.lives <= 0) this.gameOver = true;
     }
     init() {
+      this.isActive = true;
       // possible url params
       this.debug = debug;
       this.powerBar = powerBar;
@@ -230,6 +236,7 @@ window.addEventListener("load", () => {
       cancelAnimationFrame(animationRequest);
       newGame = true;
       this.init();
+      if (this.debug) console.log("version:", this.version);
       // const audioObj = new Audio("/assets/background.mp3");
       // audioObj.play();
       animationRequest = requestAnimationFrame(animate);
@@ -266,7 +273,18 @@ window.addEventListener("load", () => {
     if (!game.gameOver) {
       animationRequest = requestAnimationFrame(animate);
     } else {
-      showMosaic(canvas);
+      const previouslyWon = localStorage.getItem("success");
+      if (previouslyWon === null && game.success) {
+        game.isActive = false;
+        localStorage.setItem("success", "true");
+        canvas.addEventListener(
+          "pointerdown",
+          (e) => {
+            mosaicMode(canvas);
+          },
+          { once: true }
+        );
+      }
     }
   }
 
@@ -291,9 +309,50 @@ window.addEventListener("load", () => {
     if (b) powerBar = !b;
     debug = urlParams.has("debug");
     if (debug) console.log(urlParams);
+    if (urlParams.has("clear")) localStorage.clear();
   }
 
-  function run() {
+  function showMosaic() {
+    document.getElementById("gameModeButton").style.display = "block";
+    document.getElementById("mosaic").style.display = "block";
+    document.getElementById("zoomed").style.display = "block";
+    imageZoomOn("mosaic", "zoomed");
+  }
+
+  function hideMosaic() {
+    document.getElementById("gameModeButton").style.display = "none";
+    document.getElementById("mosaic").style.display = "none";
+    document.getElementById("zoomed").style.display = "none";
+    imageZoomOff();
+  }
+
+  function mosaicMode() {
+    mode = "mosaic";
+    game.isActive = false;
+    hideGame();
+    showMosaic();
+  }
+
+  function showGame() {
+    if (localStorage.getItem("success")) {
+      document.getElementById("mosaicModeButton").style.display = "block";
+    }
+    document.getElementById("canvas1").style.display = "block";
+    document.getElementById("fullScreenButton").style.display = "block";
+  }
+
+  function hideGame() {
+    game.gameOver = true;
+    document.getElementById("canvas1").style.display = "none";
+    document.getElementById("fullScreenButton").style.display = "none";
+    document.getElementById("mosaicModeButton").style.display = "none";
+  }
+
+  function gameMode() {
+    mode = "game";
+    game.isActive = true;
+    hideMosaic();
+    showGame();
     processURLParams(new URLSearchParams(window.location.search));
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.background.draw(ctx);
@@ -307,9 +366,10 @@ window.addEventListener("load", () => {
       },
       { once: true }
     );
-    window.addEventListener("resize", function () {
-      console.log("window resize", canvas.width, canvas.height);
-    });
+  }
+
+  function run() {
+    gameMode();
   }
   run();
 });

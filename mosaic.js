@@ -1,15 +1,18 @@
-import imageZoom from "./zoom.js";
+import { imageZoomOn, imageZoomOff } from "./zoom.js";
 
-function showMosaic(canvas) {
-  canvas.style.display = "none";
-  document.getElementById("fullScreenButton").style.display = "none";
-  const toggleGameButton = document.getElementById("toggleGameButton");
-  const mosaic = document.getElementById("mosaic");
-  const zoomed = document.getElementById("zoomed");
-  toggleGameButton.style.display = "block";
-  mosaic.style.display = "block";
-  zoomed.style.display = "block";
-  imageZoom("mosaic", "zoomed");
+function showMosaic() {
+  localStorage.setItem("mode", "mosaic");
+  document.getElementById("gameModeButton").style.display = "block";
+  document.getElementById("mosaic").style.display = "block";
+  document.getElementById("zoomed").style.display = "block";
+  imageZoomOn("mosaic", "zoomed");
 }
 
-export default showMosaic;
+function hideMosaic() {
+  document.getElementById("gameModeButton").style.display = "none";
+  document.getElementById("mosaic").style.display = "none";
+  document.getElementById("zoomed").style.display = "none";
+  imageZoomOff();
+}
+
+export { hideMosaic, showMosaic };

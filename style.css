@@ -50,23 +50,31 @@ body {
 }
 
 #mosaic {
-  border: 5px solid black;
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   max-width: 100%;
   max-height: 100%;
 }
 
-#toggleGameButton,
+#mosaicModeButton,
+#gameModeButton {
+  display: none;
+  position: absolute;
+  font-family: Arial;
+  font-size: 12px;
+  padding: 10px;
+  top: 20px;
+  left: 20px;
+}
+
 #fullScreenButton {
   display: none;
   position: absolute;
   font-family: "Creepster", cursive;
-  font-size: 16px;
-  padding: 10px;
-  top: 10px;
+  font-size: 14px;
+  padding: 9px;
+  top: 20px;
   left: 50%;
   transform: translate(-50%);
 }
