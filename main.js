@@ -313,16 +313,28 @@ window.addEventListener("load", () => {
   }
 
   function showMosaic() {
+    document.getElementById("img-zoom-container").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("img-zoom-container").style.opacity = 1;
+    }, 10);
+    document.getElementById("mosaic").style.opacity = 1;
+    document.getElementById("zoomed").style.opacity = 1;
     document.getElementById("gameModeButton").style.display = "block";
-    document.getElementById("mosaic").style.display = "block";
-    document.getElementById("zoomed").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("gameModeButton").style.pointerEvents = "auto";
+    }, 1250);
     imageZoomOn("mosaic", "zoomed");
   }
 
   function hideMosaic() {
     document.getElementById("gameModeButton").style.display = "none";
-    document.getElementById("mosaic").style.display = "none";
-    document.getElementById("zoomed").style.display = "none";
+    document.getElementById("gameModeButton").style.pointerEvents = "none";
+    document.getElementById("mosaic").style.opacity = 0;
+    document.getElementById("zoomed").style.opacity = 0;
+    document.getElementById("img-zoom-container").style.opacity = 0;
+    setTimeout(() => {
+      document.getElementById("img-zoom-container").style.display = "none";
+    }, 1250);
     imageZoomOff();
   }
 
@@ -336,16 +348,27 @@ window.addEventListener("load", () => {
   function showGame() {
     if (localStorage.getItem("success")) {
       document.getElementById("mosaicModeButton").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("mosaicModeButton").style.pointerEvents =
+          "auto";
+      }, 1250);
     }
-    document.getElementById("canvas1").style.display = "block";
     document.getElementById("fullScreenButton").style.display = "block";
+    document.getElementById("canvas1").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("canvas1").style.opacity = 1;
+    }, 10);
   }
 
   function hideGame() {
     game.gameOver = true;
-    document.getElementById("canvas1").style.display = "none";
+    document.getElementById("canvas1").style.opacity = 0;
+    setTimeout(() => {
+      document.getElementById("canvas1").style.display = "none";
+    }, 1250);
     document.getElementById("fullScreenButton").style.display = "none";
     document.getElementById("mosaicModeButton").style.display = "none";
+    document.getElementById("mosaicModeButton").style.pointerEvents = "none";
   }
 
   function gameMode() {

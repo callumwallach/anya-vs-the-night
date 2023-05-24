@@ -4,13 +4,25 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-width: none;
+}
+
 body {
   background-color: #181a1b;
   overscroll-behavior-y: contain;
+  -ms-overflow-style: none;
 }
 
-#canvas1 {
+body::-webkit-scrollbar {
   display: none;
+}
+
+/* game assets */
+
+#canvas1 {
+  /* display: none; */
+  opacity: 0;
   border: 5px solid black;
   position: absolute;
   top: 50%;
@@ -19,6 +31,7 @@ body {
   max-width: 100%;
   max-height: 100%;
   font-family: "Creepster", cursive;
+  transition: opacity 1s;
 }
 
 #gem,
@@ -44,30 +57,6 @@ body {
   display: none;
 }
 
-#zoomed,
-#mosaic {
-  display: none;
-}
-
-#mosaic {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#mosaicModeButton,
-#gameModeButton {
-  display: none;
-  position: absolute;
-  font-family: Arial;
-  font-size: 12px;
-  padding: 10px;
-  top: 20px;
-  right: 20px;
-}
-
 #fullScreenButton {
   display: none;
   position: absolute;
@@ -90,7 +79,38 @@ body {
   transform: translate(-50%);
 }
 
-.img-zoom-container {
+/* mosaic assets */
+
+#mosaicModeButton,
+#gameModeButton {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  font-family: Arial;
+  font-size: 12px;
+  padding: 9px;
+  top: 20px;
+  right: 20px;
+}
+
+#img-zoom-container,
+#zoomed,
+#mosaic {
+  /* display: none; */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+#mosaic {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#img-zoom-container {
+  display: none;
   position: relative;
 }
 
@@ -109,3 +129,7 @@ body {
   width: 300px;
   height: 300px;
 }
+
+/* .vis {
+  opacity: 1 !important;
+} */
